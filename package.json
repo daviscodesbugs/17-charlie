@@ -4,6 +4,8 @@
   "description": "A configuration-based CS:GO GSI platform",
   "main": "index.js",
   "scripts": {
+    "start": "node src/main.js",
+    "setup": "node src/setup.js",
     "test": "mocha"
   },
   "repository": {
@@ -23,6 +25,7 @@
     "mocha": "^3.5.3"
   },
   "dependencies": {
-    "hapi": "^16.6.2"
+    "hapi": "^16.6.2",
+    "inquirer": "^3.3.0"
   }
 }
