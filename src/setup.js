@@ -15,8 +15,7 @@ let steps = [
 		message: "Port",
 		default: "3000",
 		validate: (input) => {
-			// TODO only allow numbers
-			return true;
+			return(!isNaN(input));
 		}
 	}
 ];
