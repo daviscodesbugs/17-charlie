@@ -25,9 +25,12 @@
     "mocha": "^3.5.3"
   },
   "dependencies": {
+    "async": "^2.5.0",
     "hapi": "^16.6.2",
     "inquirer": "^3.3.0",
+    "js-yaml": "^3.10.0",
     "pad": "^2.0.1",
+    "request": "^2.83.0",
     "urlify": "^0.3.6"
   }
 }
