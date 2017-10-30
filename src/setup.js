@@ -3,6 +3,7 @@
 
 const inquirer = require('inquirer');
 const pad = require('pad');
+const fs = require('fs');
 require('urlify').create({
   spaces: "_",
   nonPrintable: "_",
@@ -74,7 +75,10 @@ inquirer.prompt(steps).then((vars) => {
 	let filename = "gamestate_integration_" + vars.name.urlify() + ".cfg";
 	console.log("Configuration generated: ", filename);
 	// console.log(file_string);
-	// TODO write file string to a file
+	fs.writeFile(filename, file_string, (err) => {
+		if(err) throw err;
+		else console.log(`Successfully written to file ${filename} in base directory.`);
+	});
 });
 
 function dataPrompt(name, message_name) {
