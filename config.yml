@@ -1,0 +1,5 @@
+# Server Settings
+port: 3000
+
+# number of data dumps to store
+cache_size: 30
