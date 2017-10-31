@@ -1,28 +1,28 @@
 #!/usr/bin/env node
+
 'use srict';
 
 const inquirer = require('inquirer');
 const pad = require('pad');
 const fs = require('fs');
 require('urlify').create({
-  spaces: "_",
-  nonPrintable: "_",
-  toLower: true,
-  trim: true,
-  extendString: true
+	spaces: "_",
+	nonPrintable: "_",
+	toLower: true,
+	trim: true,
+	extendString: true
 });
 
-let isNumber = function(num) {
+let isNumber = (num) => {
 	return !isNaN(num);
 };
 
-let steps = [
-	{
+let steps = [{
 		type: "input",
 		name: "uri",
 		message: "Host URI:",
 		default: "http://localhost"
-	}, 
+	},
 	inputIntPrompt("port", "Port:", 3000),
 	inputFloatPrompt("timeout", "Timeout (sec):", 1.1),
 	inputFloatPrompt("buffer", "Buffer (sec):", 0.1),
@@ -46,37 +46,40 @@ let steps = [
 		type: "input",
 		name: "name",
 		message: "Configuration name:",
-		validate: function (val) { if (val) { return true; } return false; }
+		validate: (val) => {
+			if (val) return true;
+			else return false;
+		}
 	}
 ];
 
 inquirer.prompt(steps).then((vars) => {
 	let file_string = "\"" + vars.name + "\"\n{\n" +
-	stringPair("uri", vars.uri + ":" + vars.port, 2) +
-	stringPair("timeout", vars.timeout, 2) +
-	stringPair("buffer", vars.buffer, 2) +
-	stringPair("throttle", vars.throttle, 2) +
-	stringPair("heartbeat", vars.heartbeat, 2) +
-	"  \"data\"\n  {\n" +
-	stringPair("provider", vars.provider ? 1 : 0, 4) + 
-	stringPair("map", vars.map ? 1 : 0, 4) + 
-	stringPair("round", vars.round ? 1 : 0, 4) + 
-	stringPair("player_id", vars.player_id ? 1 : 0, 4) + 
-	stringPair("allplayers_id", vars.allplayers_id ? 1 : 0, 4) + 
-	stringPair("player_state", vars.player_state ? 1 : 0, 4) + 
-	stringPair("allplayers_state", vars.allplayers_state ? 1 : 0, 4) + 
-	stringPair("allplayers_match_stats", vars.allplayers_match_stats ? 1 : 0, 4) + 
-	stringPair("allplayers_weapons", vars.allplayers_weapons ? 1 : 0, 4) + 
-	stringPair("allplayers_position", vars.allplayers_position ? 1 : 0, 4) + 
-	stringPair("phase_countdowns", vars.phase_countdowns ? 1 : 0, 4) + 
-	"  }\n" +
-	"}";
+		stringPair("uri", vars.uri + ":" + vars.port, 2) +
+		stringPair("timeout", vars.timeout, 2) +
+		stringPair("buffer", vars.buffer, 2) +
+		stringPair("throttle", vars.throttle, 2) +
+		stringPair("heartbeat", vars.heartbeat, 2) +
+		"  \"data\"\n  {\n" +
+		stringPair("provider", vars.provider ? 1 : 0, 4) +
+		stringPair("map", vars.map ? 1 : 0, 4) +
+		stringPair("round", vars.round ? 1 : 0, 4) +
+		stringPair("player_id", vars.player_id ? 1 : 0, 4) +
+		stringPair("allplayers_id", vars.allplayers_id ? 1 : 0, 4) +
+		stringPair("player_state", vars.player_state ? 1 : 0, 4) +
+		stringPair("allplayers_state", vars.allplayers_state ? 1 : 0, 4) +
+		stringPair("allplayers_match_stats", vars.allplayers_match_stats ? 1 : 0, 4) +
+		stringPair("allplayers_weapons", vars.allplayers_weapons ? 1 : 0, 4) +
+		stringPair("allplayers_position", vars.allplayers_position ? 1 : 0, 4) +
+		stringPair("phase_countdowns", vars.phase_countdowns ? 1 : 0, 4) +
+		"  }\n" +
+		"}";
 
 	let filename = "gamestate_integration_" + vars.name.urlify() + ".cfg";
 	console.log("Configuration generated: ", filename);
 	// console.log(file_string);
 	fs.writeFile(filename, file_string, (err) => {
-		if(err) throw err;
+		if (err) throw err;
 		else console.log(`Successfully written to file ${filename} in base directory.`);
 	});
 });
